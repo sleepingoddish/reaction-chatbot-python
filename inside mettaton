@@ -1,0 +1,28 @@
+# A bot that will respond to certain words in messages sent
+
+import discord,random
+from discord.ext import commands
+
+bot=commands.Bot(command_prefix='')
+
+#dictionary of trigger words and their responses
+trigger_words={
+        'ohio':['list','of','states'],
+        'brunch':['bacon','eggs','toast']
+}
+
+@bot.event
+async def on_ready():
+	print("Bot is ready!")
+
+@bot.event
+async def on_message(message):
+	if message.author == bot.user:
+		return
+for trigger_word in trigger_words:
+  	if any(trigger_word in message.content.lower()):
+	response = random.choice(trigger_words[trigger_word])
+    await bot.send_message(message.channel,response)
+
+
+bot.run('insert bot token')
